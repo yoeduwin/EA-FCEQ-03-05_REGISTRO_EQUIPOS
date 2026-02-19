@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EA-FSDG-12.01 - Supervisi&oacute;n de Gabinete</title>
+    <style>
+        /* ===== RESET & BASE ===== */
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 8px;
+            background-color: #f5f5f5;
+            font-size: 10px;
+            color: #222;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: white;
+            padding: 14px 18px 10px 18px;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* ===== HEADER ===== */
+        .header-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 2px solid #005600;
+            margin-bottom: 10px;
+        }
+
+        .header-table td {
+            border: 1px solid #005600;
+            padding: 4px 8px;
+            vertical-align: middle;
+        }
+
+        .header-logo {
+            width: 120px;
+            text-align: center;
+        }
+
+        .header-logo img {
+            max-width: 100px;
+            height: auto;
+        }
+
+        .header-title {
+            text-align: center;
+            background: linear-gradient(180deg, #005600 0%, #007836 100%);
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            padding: 10px;
+        }
+
+        .header-info {
+            width: 180px;
+            font-size: 9px;
+            line-height: 1.6;
+        }
+
+        .header-info strong {
+            color: #005600;
+        }
+
+        /* ===== CAMPOS SUPERIORES ===== */
+        .campos-superiores {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 14px;
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            background: #fafafa;
+        }
+
+        .campo {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 10px;
+        }
+
+        .campo label {
+            font-weight: bold;
+            white-space: nowrap;
+            color: #333;
+            min-width: fit-content;
+        }
+
+        .campo input,
+        .campo select {
+            flex: 1;
+            border: none;
+            border-bottom: 1px solid #999;
+            padding: 2px 4px;
+            font-size: 10px;
+            font-family: Arial, sans-serif;
+            background: transparent;
+            outline: none;
+        }
+
+        .campo input:focus,
+        .campo select:focus {
+            border-bottom-color: #007836;
+            background: #f0fff0;
+        }
+
+        .campo-sup-num {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            font-size: 10px;
+        }
+
+        .campo-sup-num label {
+            font-weight: bold;
+            white-space: nowrap;
+            color: #333;
+        }
+
+        .campo-sup-num span {
+            font-weight: bold;
+        }
+
+        .campo-sup-num input {
+            width: 40px;
+            border: none;
+            border-bottom: 1px solid #999;
+            padding: 2px 3px;
+            font-size: 10px;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: transparent;
+            outline: none;
+        }
+
+        .campo-sup-num input:focus {
+            border-bottom-color: #007836;
+            background: #f0fff0;
+        }
+
+        /* ===== TABLA PRINCIPAL ===== */
+        .eval-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 8px;
+            font-size: 9px;
+        }
+
+        .eval-table th,
+        .eval-table td {
+            border: 1px solid #888;
+            padding: 3px 4px;
+            vertical-align: middle;
+        }
+
+        .eval-table thead th {
+            background: linear-gradient(180deg, #005600 0%, #007836 100%);
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            font-size: 9px;
+            padding: 5px 3px;
+        }
+
+        .eval-table .col-no { width: 28px; text-align: center; }
+        .eval-table .col-aspecto { /* flex */ }
+        .eval-table .col-c,
+        .eval-table .col-nc,
+        .eval-table .col-na { width: 28px; text-align: center; }
+        .eval-table .col-obs { width: 200px; }
+
+        .eval-table tbody td {
+            font-size: 9px;
+            line-height: 1.3;
+        }
+
+        .eval-table tbody td.num-cell {
+            text-align: center;
+            font-weight: bold;
+            color: #005600;
+        }
+
+        .eval-table tbody td.radio-cell {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .eval-table tbody td.radio-cell input[type="radio"] {
+            margin: 0;
+            cursor: pointer;
+            width: 12px;
+            height: 12px;
+            accent-color: #005600;
+        }
+
+        .eval-table tbody td.obs-cell {
+            padding: 2px;
+        }
+
+        .eval-table tbody td.obs-cell input {
+            width: 100%;
+            border: none;
+            font-size: 8px;
+            font-family: Arial, sans-serif;
+            padding: 1px 3px;
+            background: transparent;
+            outline: none;
+        }
+
+        .eval-table tbody td.obs-cell input:focus {
+            background: #fffde7;
+        }
+
+        .eval-table tbody td.obs-cell input.obs-required {
+            background: #fff3e0;
+            border-bottom: 1px solid #e65100;
+        }
+
+        .eval-table tbody td.obs-cell input.obs-required::placeholder {
+            color: #e65100;
+            font-style: italic;
+        }
+
+        /* Campo corregido */
+        .field-corrected {
+            position: relative;
+        }
+
+        .field-corrected::after {
+            content: "*";
+            color: #d32f2f;
+            font-size: 10px;
+            font-weight: bold;
+            position: absolute;
+            top: -2px;
+            right: 2px;
+        }
+
+        .corrected-indicator {
+            display: none;
+            color: #d32f2f;
+            font-size: 7px;
+            font-style: italic;
+        }
+
+        .corrected-indicator.visible {
+            display: inline;
+        }
+
+        /* ===== LIBERACION ===== */
+        .liberacion-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px 10px;
+            border: 1px solid #888;
+            margin-bottom: 8px;
+            font-size: 10px;
+            font-weight: bold;
+            background: #fafafa;
+        }
+
+        .liberacion-section label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            font-weight: normal;
+        }
+
+        .liberacion-section input[type="radio"] {
+            accent-color: #005600;
+            width: 13px;
+            height: 13px;
+        }
+
+        /* ===== OBSERVACIONES GENERALES ===== */
+        .obs-generales {
+            border: 1px solid #888;
+            margin-bottom: 8px;
+            font-size: 10px;
+        }
+
+        .obs-generales .obs-label {
+            background: linear-gradient(180deg, #005600 0%, #007836 100%);
+            color: white;
+            font-weight: bold;
+            padding: 3px 8px;
+            font-size: 9px;
+        }
+
+        .obs-generales textarea {
+            width: 100%;
+            border: none;
+            padding: 4px 6px;
+            font-size: 9px;
+            font-family: Arial, sans-serif;
+            min-height: 28px;
+            resize: none;
+            outline: none;
+        }
+
+        .obs-generales textarea:focus {
+            background: #fffde7;
+        }
+
+        /* ===== FIRMAS ===== */
+        .firmas-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 10px;
+            padding-top: 6px;
+        }
+
+        .firma-box {
+            text-align: center;
+            font-size: 9px;
+        }
+
+        .firma-box .firma-rol {
+            font-weight: bold;
+            color: #005600;
+            font-size: 10px;
+            margin-bottom: 2px;
+        }
+
+        .firma-box .firma-nombre-select {
+            display: block;
+            margin: 0 auto 4px auto;
+            font-size: 9px;
+            border: none;
+            border-bottom: 1px solid #999;
+            padding: 2px 4px;
+            text-align: center;
+            background: transparent;
+            outline: none;
+            width: 80%;
+            font-family: Arial, sans-serif;
+        }
+
+        .firma-box .firma-nombre-select:focus {
+            border-bottom-color: #007836;
+            background: #f0fff0;
+        }
+
+        .firma-linea {
+            border-top: 1px solid #333;
+            margin: 20px auto 2px auto;
+            width: 85%;
+            padding-top: 2px;
+        }
+
+        .firma-label {
+            font-size: 8px;
+            color: #555;
+        }
+
+        .firma-fecha {
+            margin-top: 4px;
+        }
+
+        .firma-fecha input {
+            border: none;
+            border-bottom: 1px solid #999;
+            font-size: 9px;
+            padding: 1px 3px;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: transparent;
+            outline: none;
+            width: 110px;
+        }
+
+        .firma-fecha input:focus {
+            border-bottom-color: #007836;
+            background: #f0fff0;
+        }
+
+        /* ===== BOTONES ===== */
+        .no-print {
+            /* wrapper for all action buttons */
+        }
+
+        .btn-bar {
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            display: flex;
+            gap: 8px;
+            z-index: 1000;
+        }
+
+        .btn-action {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: filter 0.2s;
+        }
+
+        .btn-action:hover {
+            filter: brightness(0.85);
+        }
+
+        .btn-print { background: #005600; }
+        .btn-save { background: #1565c0; }
+        .btn-load { background: #6a1b9a; }
+        .btn-clear { background: #d32f2f; }
+
+        .btn-volver {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            padding: 8px 14px;
+            background: #005600;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            z-index: 1000;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .btn-volver:hover {
+            background: #007836;
+        }
+
+        /* ===== VALIDATION ERROR ===== */
+        .validation-error {
+            border: 2px solid #d32f2f !important;
+            background: #ffebee !important;
+        }
+
+        .error-msg {
+            color: #d32f2f;
+            font-size: 8px;
+            font-style: italic;
+        }
+
+        .same-person-error {
+            display: none;
+            color: #d32f2f;
+            font-size: 9px;
+            font-weight: bold;
+            text-align: center;
+            padding: 4px;
+            background: #ffebee;
+            border: 1px solid #d32f2f;
+            border-radius: 3px;
+            margin-top: 4px;
+        }
+
+        .same-person-error.visible {
+            display: block;
+        }
+
+        /* ===== PRINT STYLES ===== */
+        @media print {
+            @page {
+                size: letter portrait;
+                margin: 0.4in 0.4in 0.3in 0.4in;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+                background: white;
+                font-size: 9px;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .container {
+                box-shadow: none;
+                padding: 0;
+                border-radius: 0;
+                max-width: 100%;
+            }
+
+            .no-print,
+            .btn-bar,
+            .btn-volver {
+                display: none !important;
+            }
+
+            .header-table {
+                margin-bottom: 6px;
+            }
+
+            .header-title {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            .campos-superiores {
+                padding: 5px 6px;
+                margin-bottom: 6px;
+                gap: 4px 10px;
+                border-color: #888;
+            }
+
+            .campo input,
+            .campo select {
+                border-bottom: 1px solid #aaa;
+            }
+
+            .campo-sup-num input {
+                border-bottom: 1px solid #aaa;
+            }
+
+            /* Print: inputs look like text */
+            input, select, textarea {
+                -webkit-appearance: none;
+                appearance: none;
+            }
+
+            .eval-table {
+                margin-bottom: 6px;
+                font-size: 8px;
+                page-break-inside: avoid;
+            }
+
+            .eval-table th {
+                font-size: 8px;
+                padding: 3px 2px;
+            }
+
+            .eval-table td {
+                padding: 2px 3px;
+                font-size: 8px;
+            }
+
+            .eval-table tbody td.radio-cell input[type="radio"] {
+                width: 10px;
+                height: 10px;
+            }
+
+            .eval-table tbody td.obs-cell input {
+                font-size: 7px;
+            }
+
+            .liberacion-section {
+                margin-bottom: 5px;
+                padding: 4px 8px;
+                font-size: 9px;
+            }
+
+            .obs-generales {
+                margin-bottom: 5px;
+            }
+
+            .obs-generales textarea {
+                min-height: 20px;
+                font-size: 8px;
+            }
+
+            .firmas-section {
+                margin-top: 6px;
+                gap: 12px;
+            }
+
+            .firma-linea {
+                margin: 16px auto 2px auto;
+            }
+
+            .firma-box .firma-nombre-select {
+                font-size: 8px;
+            }
+
+            .same-person-error {
+                display: none !important;
+            }
+
+            .corrected-indicator.visible {
+                display: inline;
+            }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .campos-superiores {
+                grid-template-columns: 1fr;
+            }
+
+            .firmas-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="btn-volver no-print">&larr; Men&uacute;</a>
+
+    <div class="container" id="formato">
+
+        <!-- ===== ENCABEZADO ===== -->
+        <table class="header-table">
+            <tr>
+                <td class="header-logo" rowspan="2">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDMwMCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjUwIiBjeT0iOTAiIHI9IjQ1IiBzdHJva2U9IiMyZTdkMzIiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIvPgo8cGF0aCBkPSJNMjAgOTBDMjAgNzMuNDMxNSAzMy40MzE1IDYwIDUwIDYwQzY2LjU2ODUgNjAgODAgNzMuNDMxNSA4MCA5MEw2NSA5MEM2NSA4MS43MTU3IDU4LjI4NDMgNzUgNTAgNzVDNDEuNzE1NyA3NSAzNSA4MS43MTU3IDM1IDkwSDIwWiIgZmlsbD0iIzJlN2QzMiIvPgo8cmVjdCB4PSIzNSIgeT0iODAiIHdpZHRoPSIzMCIgaGVpZ2h0PSIyMCIgZmlsbD0iIzFhNDQ3YiIvPgo8cmVjdCB4PSI0MCIgeT0iNjUiIHdpZHRoPSI0IiBoZWlnaHQ9IjE1IiBmaWxsPSIjMWE0NDdiIi8+CjxyZWN0IHg9IjU2IiB5PSI2NSIgd2lkdGg9IjQiIGhlaWdodD0iMTUiIGZpbGw9IiMxYTQ0N2IiLz4KPGVsbGlwc2UgY3g9IjQyIiBjeT0iNjAiIHJ4PSIzIiByeT0iNCIgZmlsbD0iIzFhNDQ3YiIvPgo8ZWxsaXBzZSBjeD0iNTgiIGN5PSI2MCIgcng9IjMiIHJ5PSI0IiBmaWxsPSIjMWE0NDdiIi8+CjxwYXRoIGQ9Ik02MCA5NUw4MCA5NUw3NSAxMDBMNjUgMTAwWiIgZmlsbD0iIzJlN2QzMiIvPgo8dGV4dCB4PSIxMTAiIHk9IjU1IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSIjMzMzIj5FSkVDVVRJVkE8L3RleHQ+Cjx0ZXh0IHg9IjExMCIgeT0iODAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyOCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiMyZTdkMzIiPkFNQklFTlRBTDwvdGV4dD4KPHRleHQgeD0iMTEwIiB5PSIxMDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzMzMyI+TEFCT1JBVE9SSU8gREUgUFJVRUJBUzwvdGV4dD4KPC9zdmc+" alt="Ejecutiva Ambiental" />
+                </td>
+                <td class="header-title">
+                    SUPERVISI&Oacute;N DE GABINETE
+                </td>
+                <td class="header-info" rowspan="2">
+                    <strong>C&oacute;digo:</strong> EA-FSDG-12.01<br>
+                    <strong>Revisi&oacute;n:</strong> 01<br>
+                    <strong>Emitido:</strong> 06 de febrero de 2026
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:center; font-size:9px; color:#555; padding:2px;">
+                    Laboratorio de Pruebas &mdash; Sistema de Gesti&oacute;n de Calidad
+                </td>
+            </tr>
+        </table>
+
+        <!-- ===== CAMPOS SUPERIORES ===== -->
+        <div class="campos-superiores">
+            <div class="campo">
+                <label>Fecha de supervisi&oacute;n:</label>
+                <input type="date" id="fechaSupervision" data-track="true">
+            </div>
+            <div class="campo">
+                <label>Informe:</label>
+                <input type="text" id="informe" placeholder="Nombre o n&uacute;mero de informe" data-track="true">
+            </div>
+            <div class="campo">
+                <label>Nombre del(os) supervisado(s):</label>
+                <input type="text" id="supervisados" placeholder="Nombre(s) del personal supervisado" data-track="true">
+            </div>
+            <div class="campo-sup-num">
+                <label>No. de supervisi&oacute;n:</label>
+                <span>SUP-</span>
+                <input type="text" id="supNumConsec" placeholder="XXX" maxlength="3" data-track="true">
+                <span>-</span>
+                <input type="text" id="supNumAnio" placeholder="YY" maxlength="2" data-track="true">
+            </div>
+        </div>
+
+        <!-- ===== TABLA DE EVALUACION ===== -->
+        <table class="eval-table" id="tablaEval">
+            <thead>
+                <tr>
+                    <th class="col-no">No.</th>
+                    <th class="col-aspecto">Aspecto a evaluar</th>
+                    <th class="col-c">C</th>
+                    <th class="col-nc">NC</th>
+                    <th class="col-na">NA</th>
+                    <th class="col-obs">Comentarios / Observaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="num-cell">1</td>
+                    <td>&iquest;El informe incluye los datos generales completos? (nombre del proyecto, fecha de muestreo, ubicaci&oacute;n, cliente)</td>
+                    <td class="radio-cell"><input type="radio" name="eval1" value="C" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval1" value="NC" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval1" value="NA" onchange="handleRadio(this)"></td>
+                    <td class="obs-cell"><input type="text" name="obs1" placeholder="Observaciones..." data-track="true"></td>
+                </tr>
+                <tr>
+                    <td class="num-cell">2</td>
+                    <td>&iquest;Se reportan correctamente los equipos utilizados, incluyendo n&uacute;mero de serie y vigencia de calibraci&oacute;n?</td>
+                    <td class="radio-cell"><input type="radio" name="eval2" value="C" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval2" value="NC" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval2" value="NA" onchange="handleRadio(this)"></td>
+                    <td class="obs-cell"><input type="text" name="obs2" placeholder="Observaciones..." data-track="true"></td>
+                </tr>
+                <tr>
+                    <td class="num-cell">3</td>
+                    <td>&iquest;Los resultados son consistentes con las condiciones observadas durante el muestreo?</td>
+                    <td class="radio-cell"><input type="radio" name="eval3" value="C" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval3" value="NC" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval3" value="NA" onchange="handleRadio(this)"></td>
+                    <td class="obs-cell"><input type="text" name="obs3" placeholder="Observaciones..." data-track="true"></td>
+                </tr>
+                <tr>
+                    <td class="num-cell">4</td>
+                    <td>&iquest;Se incluyen las referencias normativas aplicables y est&aacute;n correctamente citadas?</td>
+                    <td class="radio-cell"><input type="radio" name="eval4" value="C" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval4" value="NC" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval4" value="NA" onchange="handleRadio(this)"></td>
+                    <td class="obs-cell"><input type="text" name="obs4" placeholder="Observaciones..." data-track="true"></td>
+                </tr>
+                <tr>
+                    <td class="num-cell">5</td>
+                    <td>&iquest;Las unidades de medida son correctas y consistentes en todo el informe?</td>
+                    <td class="radio-cell"><input type="radio" name="eval5" value="C" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval5" value="NC" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval5" value="NA" onchange="handleRadio(this)"></td>
+                    <td class="obs-cell"><input type="text" name="obs5" placeholder="Observaciones..." data-track="true"></td>
+                </tr>
+                <tr>
+                    <td class="num-cell">6</td>
+                    <td>&iquest;Se incluyen los criterios de evaluaci&oacute;n o l&iacute;mites m&aacute;ximos permisibles correspondientes?</td>
+                    <td class="radio-cell"><input type="radio" name="eval6" value="C" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval6" value="NC" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval6" value="NA" onchange="handleRadio(this)"></td>
+                    <td class="obs-cell"><input type="text" name="obs6" placeholder="Observaciones..." data-track="true"></td>
+                </tr>
+                <tr>
+                    <td class="num-cell">7</td>
+                    <td>&iquest;La conclusi&oacute;n del informe es congruente con los resultados obtenidos?</td>
+                    <td class="radio-cell"><input type="radio" name="eval7" value="C" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval7" value="NC" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval7" value="NA" onchange="handleRadio(this)"></td>
+                    <td class="obs-cell"><input type="text" name="obs7" placeholder="Observaciones..." data-track="true"></td>
+                </tr>
+                <tr>
+                    <td class="num-cell">8</td>
+                    <td>&iquest;El formato del informe cumple con la estructura documental del SGC?</td>
+                    <td class="radio-cell"><input type="radio" name="eval8" value="C" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval8" value="NC" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval8" value="NA" onchange="handleRadio(this)"></td>
+                    <td class="obs-cell"><input type="text" name="obs8" placeholder="Observaciones..." data-track="true"></td>
+                </tr>
+                <tr>
+                    <td class="num-cell">9</td>
+                    <td>&iquest;El informe est&aacute; libre de errores ortogr&aacute;ficos, gramaticales o de formato?</td>
+                    <td class="radio-cell"><input type="radio" name="eval9" value="C" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval9" value="NC" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval9" value="NA" onchange="handleRadio(this)"></td>
+                    <td class="obs-cell"><input type="text" name="obs9" placeholder="Observaciones..." data-track="true"></td>
+                </tr>
+                <tr>
+                    <td class="num-cell">10</td>
+                    <td>&iquest;Se adjuntan o referencian las evidencias de campo necesarias? (fotos, croquis, cadena de custodia)</td>
+                    <td class="radio-cell"><input type="radio" name="eval10" value="C" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval10" value="NC" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval10" value="NA" onchange="handleRadio(this)"></td>
+                    <td class="obs-cell"><input type="text" name="obs10" placeholder="Observaciones..." data-track="true"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- ===== LIBERACION DEL INFORME ===== -->
+        <div class="liberacion-section">
+            <strong>&iquest;Se libera el informe?</strong>
+            <label><input type="radio" name="libera" value="si"> S&iacute;</label>
+            <label><input type="radio" name="libera" value="no"> No</label>
+        </div>
+
+        <!-- ===== OBSERVACIONES GENERALES ===== -->
+        <div class="obs-generales">
+            <div class="obs-label">Observaciones generales</div>
+            <textarea id="obsGenerales" placeholder="Observaciones adicionales..." data-track="true"></textarea>
+        </div>
+
+        <!-- ===== FIRMAS ===== -->
+        <div class="firmas-section">
+            <div class="firma-box">
+                <div class="firma-rol">Realiz&oacute;</div>
+                <select class="firma-nombre-select" id="firmaRealizo">
+                    <option value="">Seleccionar...</option>
+                    <option value="EDUARDO CAMPOS S&Aacute;NCHEZ">EDUARDO CAMPOS S&Aacute;NCHEZ</option>
+                    <option value="MART&Iacute;N LUNA C&Oacute;RDOVA">MART&Iacute;N LUNA C&Oacute;RDOVA</option>
+                    <option value="EDUWIN IV&Aacute;N HERN&Aacute;NDEZ Z&Aacute;RATE">EDUWIN IV&Aacute;N HERN&Aacute;NDEZ Z&Aacute;RATE</option>
+                </select>
+                <div class="firma-linea"></div>
+                <div class="firma-label">Nombre, Firma y Fecha</div>
+                <div class="firma-fecha">
+                    <label style="font-size:8px;">Fecha:</label>
+                    <input type="date" id="fechaRealizo">
+                </div>
+            </div>
+            <div class="firma-box">
+                <div class="firma-rol">Supervis&oacute;</div>
+                <select class="firma-nombre-select" id="firmaSupervisor">
+                    <option value="">Seleccionar...</option>
+                    <option value="EDUARDO CAMPOS S&Aacute;NCHEZ">EDUARDO CAMPOS S&Aacute;NCHEZ</option>
+                    <option value="MART&Iacute;N LUNA C&Oacute;RDOVA">MART&Iacute;N LUNA C&Oacute;RDOVA</option>
+                    <option value="EDUWIN IV&Aacute;N HERN&Aacute;NDEZ Z&Aacute;RATE">EDUWIN IV&Aacute;N HERN&Aacute;NDEZ Z&Aacute;RATE</option>
+                </select>
+                <div class="firma-linea"></div>
+                <div class="firma-label">Nombre, Firma y Fecha</div>
+                <div class="firma-fecha">
+                    <label style="font-size:8px;">Fecha:</label>
+                    <input type="date" id="fechaSupervisor">
+                </div>
+            </div>
+        </div>
+        <div class="same-person-error" id="samePersonError">
+            La persona que realiza no puede ser la misma que supervisa (no auto-supervisi&oacute;n).
+        </div>
+
+    </div><!-- /.container -->
+
+    <!-- ===== BOTONES DE ACCION ===== -->
+    <div class="btn-bar no-print">
+        <button class="btn-action btn-save" onclick="guardarBorrador()" title="Guardar borrador en localStorage">Guardar borrador</button>
+        <button class="btn-action btn-load" onclick="cargarBorrador()" title="Cargar borrador guardado">Cargar borrador</button>
+        <button class="btn-action btn-clear" onclick="limpiarFormulario()" title="Limpiar todo el formato">Limpiar</button>
+        <button class="btn-action btn-print" onclick="imprimirFormato()" title="Imprimir formato">Imprimir</button>
+    </div>
+
+    <script>
+        // ===== TRACKING CORRECTIONS =====
+        const originalValues = {};
+
+        function trackField(el) {
+            const key = el.id || el.name;
+            if (!key) return;
+            if (!(key in originalValues)) {
+                originalValues[key] = el.value;
+            }
+        }
+
+        function checkCorrected(el) {
+            const key = el.id || el.name;
+            if (!key || !(key in originalValues)) return;
+            const parent = el.closest('td') || el.closest('.campo') || el.parentElement;
+            if (!parent) return;
+
+            let indicator = parent.querySelector('.corrected-indicator');
+            if (el.value !== originalValues[key] && originalValues[key] !== '') {
+                parent.classList.add('field-corrected');
+                if (!indicator) {
+                    indicator = document.createElement('span');
+                    indicator.className = 'corrected-indicator visible';
+                    indicator.textContent = ' (corregido)';
+                    parent.appendChild(indicator);
+                } else {
+                    indicator.classList.add('visible');
+                }
+            } else {
+                parent.classList.remove('field-corrected');
+                if (indicator) indicator.classList.remove('visible');
+            }
+        }
+
+        // Init tracking on all trackable fields
+        document.querySelectorAll('[data-track="true"]').forEach(function(el) {
+            el.addEventListener('focus', function() { trackField(this); });
+            el.addEventListener('change', function() { checkCorrected(this); });
+            el.addEventListener('blur', function() { checkCorrected(this); });
+        });
+
+        // ===== RADIO BUTTON HANDLER (NC -> obs required) =====
+        function handleRadio(radio) {
+            var name = radio.name; // eval1, eval2, etc.
+            var num = name.replace('eval', '');
+            var obsInput = document.querySelector('input[name="obs' + num + '"]');
+            if (!obsInput) return;
+
+            if (radio.value === 'NC') {
+                obsInput.classList.add('obs-required');
+                obsInput.placeholder = 'Obligatorio: explique la no conformidad...';
+                obsInput.setAttribute('required', 'required');
+            } else {
+                obsInput.classList.remove('obs-required');
+                obsInput.placeholder = 'Observaciones...';
+                obsInput.removeAttribute('required');
+            }
+        }
+
+        // ===== SAME PERSON VALIDATION =====
+        var firmaRealizo = document.getElementById('firmaRealizo');
+        var firmaSupervisor = document.getElementById('firmaSupervisor');
+        var samePersonError = document.getElementById('samePersonError');
+
+        function validateSamePerson() {
+            var r = firmaRealizo.value;
+            var s = firmaSupervisor.value;
+            if (r && s && r === s) {
+                samePersonError.classList.add('visible');
+                firmaRealizo.classList.add('validation-error');
+                firmaSupervisor.classList.add('validation-error');
+                return false;
+            } else {
+                samePersonError.classList.remove('visible');
+                firmaRealizo.classList.remove('validation-error');
+                firmaSupervisor.classList.remove('validation-error');
+                return true;
+            }
+        }
+
+        firmaRealizo.addEventListener('change', validateSamePerson);
+        firmaSupervisor.addEventListener('change', validateSamePerson);
+
+        // ===== VALIDATE ALL BEFORE PRINT =====
+        function validateForm() {
+            var errors = [];
+
+            // 1. Check all rows have C/NC/NA selected
+            for (var i = 1; i <= 10; i++) {
+                var radios = document.querySelectorAll('input[name="eval' + i + '"]');
+                var selected = false;
+                var ncSelected = false;
+                radios.forEach(function(r) {
+                    if (r.checked) {
+                        selected = true;
+                        if (r.value === 'NC') ncSelected = true;
+                    }
+                });
+                if (!selected) {
+                    errors.push('Fila ' + i + ': debe seleccionar C, NC o NA.');
+                }
+                // 2. If NC, obs required
+                if (ncSelected) {
+                    var obs = document.querySelector('input[name="obs' + i + '"]');
+                    if (!obs || !obs.value.trim()) {
+                        errors.push('Fila ' + i + ': al marcar NC, las observaciones son obligatorias.');
+                        if (obs) obs.classList.add('validation-error');
+                    }
+                }
+            }
+
+            // 3. Same person
+            if (!validateSamePerson()) {
+                errors.push('"Realiz\u00f3" y "Supervis\u00f3" no pueden ser la misma persona.');
+            }
+
+            // 4. Supervision number format
+            var consec = document.getElementById('supNumConsec').value.trim();
+            var anio = document.getElementById('supNumAnio').value.trim();
+            if (consec || anio) {
+                if (!/^\d{1,3}$/.test(consec)) {
+                    errors.push('No. de supervisi\u00f3n: XXX debe ser 1 a 3 d\u00edgitos.');
+                }
+                if (!/^\d{2}$/.test(anio)) {
+                    errors.push('No. de supervisi\u00f3n: YY debe ser 2 d\u00edgitos (a\u00f1o).');
+                }
+            }
+
+            return errors;
+        }
+
+        // ===== IMPRIMIR =====
+        function imprimirFormato() {
+            // Clear previous errors
+            document.querySelectorAll('.validation-error').forEach(function(el) {
+                el.classList.remove('validation-error');
+            });
+
+            var errors = validateForm();
+            if (errors.length > 0) {
+                var msg = 'Se encontraron los siguientes problemas:\n\n' + errors.join('\n');
+                msg += '\n\n\u00bfDesea imprimir de todas formas?';
+                if (!confirm(msg)) return;
+            }
+            window.print();
+        }
+
+        // ===== LIMPIAR =====
+        function limpiarFormulario() {
+            if (!confirm('\u00bfEst\u00e1 seguro de que desea limpiar todo el formato?')) return;
+
+            // Clear inputs
+            document.querySelectorAll('#formato input[type="text"], #formato input[type="date"], #formato textarea').forEach(function(el) {
+                el.value = '';
+                el.classList.remove('validation-error', 'obs-required');
+                el.removeAttribute('required');
+                el.placeholder = el.name && el.name.startsWith('obs') ? 'Observaciones...' : el.placeholder;
+            });
+
+            // Clear radios
+            document.querySelectorAll('#formato input[type="radio"]').forEach(function(el) {
+                el.checked = false;
+            });
+
+            // Clear selects
+            document.querySelectorAll('#formato select').forEach(function(el) {
+                el.selectedIndex = 0;
+                el.classList.remove('validation-error');
+            });
+
+            // Clear correction indicators
+            document.querySelectorAll('.field-corrected').forEach(function(el) {
+                el.classList.remove('field-corrected');
+            });
+            document.querySelectorAll('.corrected-indicator').forEach(function(el) {
+                el.remove();
+            });
+
+            // Clear same person error
+            samePersonError.classList.remove('visible');
+
+            // Reset tracking
+            for (var key in originalValues) {
+                delete originalValues[key];
+            }
+
+            alert('Formato limpiado correctamente.');
+        }
+
+        // ===== GUARDAR BORRADOR =====
+        function guardarBorrador() {
+            var data = {};
+
+            // Text inputs and dates
+            document.querySelectorAll('#formato input[type="text"], #formato input[type="date"]').forEach(function(el) {
+                var key = el.id || el.name;
+                if (key) data[key] = el.value;
+            });
+
+            // Textareas
+            document.querySelectorAll('#formato textarea').forEach(function(el) {
+                var key = el.id || el.name;
+                if (key) data[key] = el.value;
+            });
+
+            // Radios
+            document.querySelectorAll('#formato input[type="radio"]:checked').forEach(function(el) {
+                data['radio_' + el.name] = el.value;
+            });
+
+            // Selects
+            document.querySelectorAll('#formato select').forEach(function(el) {
+                if (el.id) data['select_' + el.id] = el.value;
+            });
+
+            try {
+                localStorage.setItem('supervision_gabinete_borrador', JSON.stringify(data));
+                alert('Borrador guardado correctamente.');
+            } catch (e) {
+                alert('Error al guardar: ' + e.message);
+            }
+        }
+
+        // ===== CARGAR BORRADOR =====
+        function cargarBorrador() {
+            var raw = localStorage.getItem('supervision_gabinete_borrador');
+            if (!raw) {
+                alert('No hay ning\u00fan borrador guardado.');
+                return;
+            }
+
+            if (!confirm('\u00bfDesea cargar el borrador guardado? Los datos actuales se reemplazar\u00e1n.')) return;
+
+            try {
+                var data = JSON.parse(raw);
+
+                // Text inputs and dates
+                document.querySelectorAll('#formato input[type="text"], #formato input[type="date"]').forEach(function(el) {
+                    var key = el.id || el.name;
+                    if (key && data[key] !== undefined) el.value = data[key];
+                });
+
+                // Textareas
+                document.querySelectorAll('#formato textarea').forEach(function(el) {
+                    var key = el.id || el.name;
+                    if (key && data[key] !== undefined) el.value = data[key];
+                });
+
+                // Radios
+                document.querySelectorAll('#formato input[type="radio"]').forEach(function(el) {
+                    var rKey = 'radio_' + el.name;
+                    if (data[rKey] !== undefined && data[rKey] === el.value) {
+                        el.checked = true;
+                        // Trigger NC logic
+                        if (el.value === 'NC') handleRadio(el);
+                    }
+                });
+
+                // Selects
+                document.querySelectorAll('#formato select').forEach(function(el) {
+                    var sKey = 'select_' + el.id;
+                    if (data[sKey] !== undefined) el.value = data[sKey];
+                });
+
+                // Re-validate same person
+                validateSamePerson();
+
+                alert('Borrador cargado correctamente.');
+            } catch (e) {
+                alert('Error al cargar borrador: ' + e.message);
+            }
+        }
+    </script>
+
+</body>
+</html>
