@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EA-FSDG-12.01 &ndash; Supervisi&oacute;n de Gabinete</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         /* ===== RESET & BASE ===== */
         * { box-sizing: border-box; }
@@ -416,9 +417,22 @@
 
         .btn-action:hover { filter: brightness(0.85); }
         .btn-print { background: #005600; }
+        .btn-pdf { background: #1976d2; }
         .btn-save { background: #1565c0; }
         .btn-load { background: #6a1b9a; }
         .btn-clear { background: #d32f2f; }
+
+        .orientation-select {
+            padding: 10px 8px;
+            border: none;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: bold;
+            background: #0d47a1;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
 
         .btn-volver {
             position: fixed;
@@ -675,7 +689,7 @@
             </div>
         </div>
 
-        <!-- ===== TABLA DE EVALUACION (5 secciones, 16 ítems) ===== -->
+        <!-- ===== TABLA DE EVALUACION (5 secciones, 17 ítems) ===== -->
         <table class="eval-table" id="tablaEval">
             <thead>
                 <tr>
@@ -694,7 +708,7 @@
                 </tr>
                 <tr>
                     <td class="num-cell">1</td>
-                    <td>&iquest;Los registros de campo est&aacute;n completos, legibles y son consistentes con el informe?</td>
+                    <td>&iquest;Existe una orden de Trabajo emitida y firmada?</td>
                     <td class="radio-cell"><input type="radio" name="eval1" value="C" onchange="handleRadio(this)"></td>
                     <td class="radio-cell"><input type="radio" name="eval1" value="NC" onchange="handleRadio(this)"></td>
                     <td class="radio-cell"><input type="radio" name="eval1" value="NA" onchange="handleRadio(this)"></td>
@@ -702,7 +716,7 @@
                 </tr>
                 <tr>
                     <td class="num-cell">2</td>
-                    <td>&iquest;Se registraron correctamente las condiciones ambientales durante la medici&oacute;n/muestreo?</td>
+                    <td>&iquest;Existe un registro de entrada y salida del equipo completo?</td>
                     <td class="radio-cell"><input type="radio" name="eval2" value="C" onchange="handleRadio(this)"></td>
                     <td class="radio-cell"><input type="radio" name="eval2" value="NC" onchange="handleRadio(this)"></td>
                     <td class="radio-cell"><input type="radio" name="eval2" value="NA" onchange="handleRadio(this)"></td>
@@ -710,20 +724,15 @@
                 </tr>
                 <tr>
                     <td class="num-cell">3</td>
-                    <td>&iquest;Se identifican correctamente los puntos de medici&oacute;n, ubicaci&oacute;n y datos generales del proyecto?</td>
+                    <td>&iquest;Existen los anexos requeridos (hojas de campo, croquis, entre otros)?</td>
                     <td class="radio-cell"><input type="radio" name="eval3" value="C" onchange="handleRadio(this)"></td>
                     <td class="radio-cell"><input type="radio" name="eval3" value="NC" onchange="handleRadio(this)"></td>
                     <td class="radio-cell"><input type="radio" name="eval3" value="NA" onchange="handleRadio(this)"></td>
                     <td class="obs-cell"><input type="text" name="obs3" placeholder="Observaciones..." data-track="true"></td>
                 </tr>
-
-                <!-- ===== SECCION 2 ===== -->
-                <tr class="section-row">
-                    <td colspan="6">Secci&oacute;n 2. Equipos, Trazabilidad metrol&oacute;gica y verificaciones (Req. 7.5)</td>
-                </tr>
                 <tr>
                     <td class="num-cell">4</td>
-                    <td>&iquest;Se reportan correctamente los equipos utilizados, incluyendo marca, modelo y n&uacute;mero de serie?</td>
+                    <td>&iquest;Los registros de campo est&aacute;n completos, legibles y firmados?</td>
                     <td class="radio-cell"><input type="radio" name="eval4" value="C" onchange="handleRadio(this)"></td>
                     <td class="radio-cell"><input type="radio" name="eval4" value="NC" onchange="handleRadio(this)"></td>
                     <td class="radio-cell"><input type="radio" name="eval4" value="NA" onchange="handleRadio(this)"></td>
@@ -731,19 +740,32 @@
                 </tr>
                 <tr>
                     <td class="num-cell">5</td>
-                    <td>&iquest;Los certificados de calibraci&oacute;n de los equipos est&aacute;n vigentes al momento del muestreo?</td>
+                    <td>&iquest;Correcci&oacute;n de errores conforme a sistema (dato con error cruzado, registro del dato correcto y r&uacute;brica de quien corrige)?</td>
                     <td class="radio-cell"><input type="radio" name="eval5" value="C" onchange="handleRadio(this)"></td>
                     <td class="radio-cell"><input type="radio" name="eval5" value="NC" onchange="handleRadio(this)"></td>
                     <td class="radio-cell"><input type="radio" name="eval5" value="NA" onchange="handleRadio(this)"></td>
                     <td class="obs-cell"><input type="text" name="obs5" placeholder="Observaciones..." data-track="true"></td>
                 </tr>
+
+                <!-- ===== SECCION 2 ===== -->
+                <tr class="section-row">
+                    <td colspan="6">Secci&oacute;n 2. Equipos, Trazabilidad metrol&oacute;gica y verificaciones (Req. 7.5)</td>
+                </tr>
                 <tr>
                     <td class="num-cell">6</td>
-                    <td>&iquest;Se realizaron y documentaron las verificaciones intermedias de los equipos?</td>
+                    <td>&iquest;Los equipos utilizados cuentan con calibraci&oacute;n vigente al momento del ensayo?</td>
                     <td class="radio-cell"><input type="radio" name="eval6" value="C" onchange="handleRadio(this)"></td>
                     <td class="radio-cell"><input type="radio" name="eval6" value="NC" onchange="handleRadio(this)"></td>
                     <td class="radio-cell"><input type="radio" name="eval6" value="NA" onchange="handleRadio(this)"></td>
                     <td class="obs-cell"><input type="text" name="obs6" placeholder="Observaciones..." data-track="true"></td>
+                </tr>
+                <tr>
+                    <td class="num-cell">7</td>
+                    <td>&iquest;Las hojas de campo muestran verificaci&oacute;n inicial y final (cuando aplica)?</td>
+                    <td class="radio-cell"><input type="radio" name="eval7" value="C" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval7" value="NC" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval7" value="NA" onchange="handleRadio(this)"></td>
+                    <td class="obs-cell"><input type="text" name="obs7" placeholder="Observaciones..." data-track="true"></td>
                 </tr>
 
                 <!-- ===== SECCION 3 ===== -->
@@ -751,36 +773,12 @@
                     <td colspan="6">Secci&oacute;n 3. Procesamiento de datos (Req. 7.5, 7.6, 7.11)</td>
                 </tr>
                 <tr>
-                    <td class="num-cell">7</td>
-                    <td>&iquest;Los c&aacute;lculos, f&oacute;rmulas y conversiones son correctos y verificables?</td>
-                    <td class="radio-cell"><input type="radio" name="eval7" value="C" onchange="handleRadio(this)"></td>
-                    <td class="radio-cell"><input type="radio" name="eval7" value="NC" onchange="handleRadio(this)"></td>
-                    <td class="radio-cell"><input type="radio" name="eval7" value="NA" onchange="handleRadio(this)"></td>
-                    <td class="obs-cell"><input type="text" name="obs7" placeholder="Observaciones..." data-track="true"></td>
-                </tr>
-                <tr>
                     <td class="num-cell">8</td>
-                    <td>&iquest;Las unidades de medida son correctas y consistentes en todo el informe?</td>
+                    <td>&iquest;Se usan formatos vigentes sin reutilizar contenido de otro cliente?</td>
                     <td class="radio-cell"><input type="radio" name="eval8" value="C" onchange="handleRadio(this)"></td>
                     <td class="radio-cell"><input type="radio" name="eval8" value="NC" onchange="handleRadio(this)"></td>
                     <td class="radio-cell"><input type="radio" name="eval8" value="NA" onchange="handleRadio(this)"></td>
                     <td class="obs-cell"><input type="text" name="obs8" placeholder="Observaciones..." data-track="true"></td>
-                </tr>
-                <tr>
-                    <td class="num-cell">9</td>
-                    <td>&iquest;Se aplic&oacute; correctamente el m&eacute;todo de ensayo/medici&oacute;n referenciado?</td>
-                    <td class="radio-cell"><input type="radio" name="eval9" value="C" onchange="handleRadio(this)"></td>
-                    <td class="radio-cell"><input type="radio" name="eval9" value="NC" onchange="handleRadio(this)"></td>
-                    <td class="radio-cell"><input type="radio" name="eval9" value="NA" onchange="handleRadio(this)"></td>
-                    <td class="obs-cell"><input type="text" name="obs9" placeholder="Observaciones..." data-track="true"></td>
-                </tr>
-                <tr>
-                    <td class="num-cell">10</td>
-                    <td>&iquest;Los resultados son congruentes con las condiciones observadas en campo?</td>
-                    <td class="radio-cell"><input type="radio" name="eval10" value="C" onchange="handleRadio(this)"></td>
-                    <td class="radio-cell"><input type="radio" name="eval10" value="NC" onchange="handleRadio(this)"></td>
-                    <td class="radio-cell"><input type="radio" name="eval10" value="NA" onchange="handleRadio(this)"></td>
-                    <td class="obs-cell"><input type="text" name="obs10" placeholder="Observaciones..." data-track="true"></td>
                 </tr>
 
                 <!-- ===== SECCION 4 ===== -->
@@ -788,28 +786,12 @@
                     <td colspan="6">Secci&oacute;n 4. Aseguramiento de validez del resultado (ISO 7.7)</td>
                 </tr>
                 <tr>
-                    <td class="num-cell">11</td>
-                    <td>&iquest;Se incluyen las referencias normativas aplicables y est&aacute;n correctamente citadas?</td>
-                    <td class="radio-cell"><input type="radio" name="eval11" value="C" onchange="handleRadio(this)"></td>
-                    <td class="radio-cell"><input type="radio" name="eval11" value="NC" onchange="handleRadio(this)"></td>
-                    <td class="radio-cell"><input type="radio" name="eval11" value="NA" onchange="handleRadio(this)"></td>
-                    <td class="obs-cell"><input type="text" name="obs11" placeholder="Observaciones..." data-track="true"></td>
-                </tr>
-                <tr>
-                    <td class="num-cell">12</td>
-                    <td>&iquest;Se incluyen los criterios de evaluaci&oacute;n o l&iacute;mites m&aacute;ximos permisibles correspondientes?</td>
-                    <td class="radio-cell"><input type="radio" name="eval12" value="C" onchange="handleRadio(this)"></td>
-                    <td class="radio-cell"><input type="radio" name="eval12" value="NC" onchange="handleRadio(this)"></td>
-                    <td class="radio-cell"><input type="radio" name="eval12" value="NA" onchange="handleRadio(this)"></td>
-                    <td class="obs-cell"><input type="text" name="obs12" placeholder="Observaciones..." data-track="true"></td>
-                </tr>
-                <tr>
-                    <td class="num-cell">13</td>
-                    <td>&iquest;La conclusi&oacute;n es congruente con los resultados y criterios aplicados?</td>
-                    <td class="radio-cell"><input type="radio" name="eval13" value="C" onchange="handleRadio(this)"></td>
-                    <td class="radio-cell"><input type="radio" name="eval13" value="NC" onchange="handleRadio(this)"></td>
-                    <td class="radio-cell"><input type="radio" name="eval13" value="NA" onchange="handleRadio(this)"></td>
-                    <td class="obs-cell"><input type="text" name="obs13" placeholder="Observaciones..." data-track="true"></td>
+                    <td class="num-cell">9</td>
+                    <td>Confirmaci&oacute;n de que no hay desviaciones al m&eacute;todo</td>
+                    <td class="radio-cell"><input type="radio" name="eval9" value="C" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval9" value="NC" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval9" value="NA" onchange="handleRadio(this)"></td>
+                    <td class="obs-cell"><input type="text" name="obs9" placeholder="Observaciones..." data-track="true"></td>
                 </tr>
 
                 <!-- ===== SECCION 5 ===== -->
@@ -817,8 +799,40 @@
                     <td colspan="6">Secci&oacute;n 5. Revisi&oacute;n del informe de resultados (ISO 7.8)</td>
                 </tr>
                 <tr>
+                    <td class="num-cell">10</td>
+                    <td>&iquest;Contiene datos del cliente: raz&oacute;n social, direcci&oacute;n, responsables, RFC, entre otros?</td>
+                    <td class="radio-cell"><input type="radio" name="eval10" value="C" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval10" value="NC" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval10" value="NA" onchange="handleRadio(this)"></td>
+                    <td class="obs-cell"><input type="text" name="obs10" placeholder="Observaciones..." data-track="true"></td>
+                </tr>
+                <tr>
+                    <td class="num-cell">11</td>
+                    <td>&iquest;Contiene el n&uacute;mero de informe en todas las hojas del informe de resultados?</td>
+                    <td class="radio-cell"><input type="radio" name="eval11" value="C" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval11" value="NC" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval11" value="NA" onchange="handleRadio(this)"></td>
+                    <td class="obs-cell"><input type="text" name="obs11" placeholder="Observaciones..." data-track="true"></td>
+                </tr>
+                <tr>
+                    <td class="num-cell">12</td>
+                    <td>&iquest;Contiene paginaci&oacute;n de acuerdo al sistema de gesti&oacute;n?</td>
+                    <td class="radio-cell"><input type="radio" name="eval12" value="C" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval12" value="NC" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval12" value="NA" onchange="handleRadio(this)"></td>
+                    <td class="obs-cell"><input type="text" name="obs12" placeholder="Observaciones..." data-track="true"></td>
+                </tr>
+                <tr>
+                    <td class="num-cell">13</td>
+                    <td>&iquest;Corresponde al m&eacute;todo / norma correspondiente?</td>
+                    <td class="radio-cell"><input type="radio" name="eval13" value="C" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval13" value="NC" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval13" value="NA" onchange="handleRadio(this)"></td>
+                    <td class="obs-cell"><input type="text" name="obs13" placeholder="Observaciones..." data-track="true"></td>
+                </tr>
+                <tr>
                     <td class="num-cell">14</td>
-                    <td>&iquest;El formato del informe cumple con la estructura documental del SGC?</td>
+                    <td>&iquest;Concuerdan los c&aacute;lculos de las memorias con los resultados reportados?</td>
                     <td class="radio-cell"><input type="radio" name="eval14" value="C" onchange="handleRadio(this)"></td>
                     <td class="radio-cell"><input type="radio" name="eval14" value="NC" onchange="handleRadio(this)"></td>
                     <td class="radio-cell"><input type="radio" name="eval14" value="NA" onchange="handleRadio(this)"></td>
@@ -826,7 +840,7 @@
                 </tr>
                 <tr>
                     <td class="num-cell">15</td>
-                    <td>&iquest;El informe est&aacute; libre de errores ortogr&aacute;ficos, gramaticales o de formato?</td>
+                    <td>&iquest;Declara la incertidumbre (cuando aplica)?</td>
                     <td class="radio-cell"><input type="radio" name="eval15" value="C" onchange="handleRadio(this)"></td>
                     <td class="radio-cell"><input type="radio" name="eval15" value="NC" onchange="handleRadio(this)"></td>
                     <td class="radio-cell"><input type="radio" name="eval15" value="NA" onchange="handleRadio(this)"></td>
@@ -834,13 +848,30 @@
                 </tr>
                 <tr>
                     <td class="num-cell">16</td>
-                    <td>&iquest;Se adjuntan o referencian las evidencias necesarias? (fotos, croquis, cadena de custodia)</td>
+                    <td>&iquest;Contiene firmas / autorizaciones conforme al sistema?</td>
                     <td class="radio-cell"><input type="radio" name="eval16" value="C" onchange="handleRadio(this)"></td>
                     <td class="radio-cell"><input type="radio" name="eval16" value="NC" onchange="handleRadio(this)"></td>
                     <td class="radio-cell"><input type="radio" name="eval16" value="NA" onchange="handleRadio(this)"></td>
                     <td class="obs-cell"><input type="text" name="obs16" placeholder="Observaciones..." data-track="true"></td>
                 </tr>
+                <tr>
+                    <td class="num-cell">17</td>
+                    <td>&iquest;Se usan formatos de informes vigentes sin reutilizar contenido de otro cliente?</td>
+                    <td class="radio-cell"><input type="radio" name="eval17" value="C" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval17" value="NC" onchange="handleRadio(this)"></td>
+                    <td class="radio-cell"><input type="radio" name="eval17" value="NA" onchange="handleRadio(this)"></td>
+                    <td class="obs-cell"><input type="text" name="obs17" placeholder="Observaciones..." data-track="true"></td>
+                </tr>
             </tbody>
+            <tfoot>
+                <tr class="summary-row">
+                    <td colspan="2" style="text-align:right; font-weight:bold; font-size:8px; background:#f5f5f5;">Resumen:</td>
+                    <td style="text-align:center; font-weight:bold; font-size:8px; background:#e8f5e9;" id="totalC">0</td>
+                    <td style="text-align:center; font-weight:bold; font-size:8px; background:#ffebee;" id="totalNC">0</td>
+                    <td style="text-align:center; font-weight:bold; font-size:8px; background:#fff3e0;" id="totalNA">0</td>
+                    <td style="font-size:7px; background:#f5f5f5; padding-left:4px;" id="summaryText">Sin evaluar</td>
+                </tr>
+            </tfoot>
         </table>
 
         <!-- ===== LIBERACION DEL INFORME ===== -->
@@ -900,11 +931,52 @@
         <button class="btn-action btn-save" onclick="guardarBorrador()" title="Guardar borrador en localStorage">Guardar borrador</button>
         <button class="btn-action btn-load" onclick="cargarBorrador()" title="Cargar borrador guardado">Cargar borrador</button>
         <button class="btn-action btn-clear" onclick="limpiarFormulario()" title="Limpiar todo el formato">Limpiar</button>
+        <select class="orientation-select" id="orientacionPDF" title="Orientaci&oacute;n para PDF/Impresi&oacute;n">
+            <option value="portrait">Vertical</option>
+            <option value="landscape">Horizontal</option>
+        </select>
+        <button class="btn-action btn-pdf" onclick="exportarPDF()" title="Exportar a PDF">PDF</button>
         <button class="btn-action btn-print" onclick="imprimirFormato()" title="Imprimir formato">Imprimir</button>
     </div>
 
     <script>
-        var TOTAL_ITEMS = 16;
+        var TOTAL_ITEMS = 17;
+
+        // ===== AUTO-FILL TODAY'S DATE =====
+        (function() {
+            var today = new Date().toISOString().split('T')[0];
+            var fechaSup = document.getElementById('fechaSupervision');
+            if (fechaSup && !fechaSup.value) fechaSup.value = today;
+            // Auto-fill year in SUP number
+            var anioInput = document.getElementById('supNumAnio');
+            if (anioInput && !anioInput.value) anioInput.value = new Date().getFullYear().toString().slice(-2);
+        })();
+
+        // ===== SUMMARY COUNTER =====
+        function updateSummary() {
+            var c = 0, nc = 0, na = 0;
+            for (var i = 1; i <= TOTAL_ITEMS; i++) {
+                var checked = document.querySelector('input[name="eval' + i + '"]:checked');
+                if (checked) {
+                    if (checked.value === 'C') c++;
+                    else if (checked.value === 'NC') nc++;
+                    else if (checked.value === 'NA') na++;
+                }
+            }
+            document.getElementById('totalC').textContent = c;
+            document.getElementById('totalNC').textContent = nc;
+            document.getElementById('totalNA').textContent = na;
+            var total = c + nc + na;
+            var text = total === 0 ? 'Sin evaluar' :
+                       total + ' de ' + TOTAL_ITEMS + ' evaluados' +
+                       (nc > 0 ? ' | ' + nc + ' no conformidad(es)' : ' | Sin no conformidades');
+            document.getElementById('summaryText').textContent = text;
+        }
+
+        // Attach summary update to all radios
+        document.querySelectorAll('.eval-table input[type="radio"]').forEach(function(r) {
+            r.addEventListener('change', updateSummary);
+        });
 
         // ===== TRACKING CORRECTIONS =====
         var originalValues = {};
@@ -1032,6 +1104,15 @@
             return errors;
         }
 
+        // ===== DYNAMIC PRINT ORIENTATION =====
+        var printStyleSheet = null;
+        function applyPrintOrientation(orientation) {
+            if (printStyleSheet) printStyleSheet.remove();
+            printStyleSheet = document.createElement('style');
+            printStyleSheet.textContent = '@media print { @page { size: letter ' + orientation + '; } }';
+            document.head.appendChild(printStyleSheet);
+        }
+
         // ===== IMPRIMIR =====
         function imprimirFormato() {
             document.querySelectorAll('.validation-error').forEach(function(el) {
@@ -1044,7 +1125,35 @@
                 msg += '\n\n\u00bfDesea imprimir de todas formas?';
                 if (!confirm(msg)) return;
             }
-            window.print();
+            var orient = document.getElementById('orientacionPDF').value;
+            applyPrintOrientation(orient);
+            setTimeout(function() { window.print(); }, 100);
+        }
+
+        // ===== EXPORTAR PDF =====
+        function exportarPDF() {
+            if (typeof html2pdf === 'undefined') {
+                alert('Error: la librer\u00eda html2pdf no se ha cargado. Verifique su conexi\u00f3n a internet.');
+                return;
+            }
+            var orient = document.getElementById('orientacionPDF').value;
+            var informe = document.getElementById('informe').value.trim();
+            var consec = document.getElementById('supNumConsec').value.trim();
+            var anio = document.getElementById('supNumAnio').value.trim();
+            var nombre = 'Supervision_Gabinete';
+            if (informe) nombre = informe.replace(/[^a-zA-Z0-9\u00e0-\u00fc]/gi, '_');
+            if (consec && anio) nombre += '_SUP-' + consec + '-' + anio;
+
+            var element = document.getElementById('formato');
+            var opt = {
+                margin: orient === 'portrait' ? [0.3, 0.3, 0.25, 0.3] : [0.25, 0.4, 0.2, 0.4],
+                filename: nombre + '.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'in', format: 'letter', orientation: orient }
+            };
+
+            html2pdf().set(opt).from(element).save();
         }
 
         // ===== LIMPIAR =====
