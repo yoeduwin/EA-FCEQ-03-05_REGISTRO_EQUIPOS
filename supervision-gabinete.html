@@ -3,429 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EA-FSDG-12.01 – Supervisión y Cadena de Custodia</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <title>Flujo de Formatos NOM-081-SEMARNAT-1994</title>
     <style>
-        /* ===== VARIABLES DE MARCA ===== */
         :root {
-            --ea-primary: #005600;
-            --ea-secondary: #007836;
-            --ea-accent: #e8f5e9;
-            --ea-bg: #f0f4f1;
-            --text-dark: #1e293b;
-            --text-muted: #64748b;
-            --border-light: #cbd5e1;
-            --error-color: #ef4444;
-            --error-bg: #fef2f2;
+            --primary-dark: #005600;
+            --primary-light: #007836;
+            --white: #ffffff;
+            --gray-light: #f4f7f6;
+            --gray-border: #e0e0e0;
         }
 
-        /* ===== RESET & BASE ===== */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--ea-bg);
-            color: var(--text-dark);
-            font-size: 12px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--gray-light);
+            margin: 0;
             padding: 20px;
+            display: flex;
+            justify-content: center;
         }
 
         .container {
-            max-width: 850px;
-            margin: 0 auto;
-            background: white;
-            padding: 24px 32px;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-        }
-
-        /* ===== HEADER TABLE ===== */
-        .header-table {
+            background: var(--white);
             width: 100%;
-            border-collapse: collapse;
-            border: 2px solid var(--ea-primary);
-            margin-bottom: 16px;
+            max-width: 800px;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
-        .header-table td {
-            border: 1px solid var(--ea-primary);
-            padding: 8px 12px;
-            vertical-align: middle;
-        }
-
-        .header-logo { width: 120px; text-align: center; }
-        .header-logo img { max-width: 100px; height: auto; }
-
-        .header-title {
+        .header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
+            color: var(--white);
+            padding: 25px;
+            border-radius: 8px;
             text-align: center;
-            background: linear-gradient(135deg, var(--ea-primary) 0%, var(--ea-secondary) 100%);
-            color: white;
-            font-size: 15px;
-            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.6rem;
             letter-spacing: 1px;
             text-transform: uppercase;
         }
 
-        .header-info {
-            width: 180px;
-            font-size: 10px;
-            line-height: 1.6;
-            color: var(--text-dark);
+        .subtitle {
+            margin-top: 10px;
+            font-size: 0.95rem;
+            opacity: 0.9;
         }
 
-        .header-info strong { color: var(--ea-primary); }
-        .lab-subtitle { text-align: center; font-size: 10px; color: var(--text-muted); padding: 4px; font-weight: 500; }
+        /* Estilos de las Secciones del Flujo */
+        .section-block {
+            margin-bottom: 25px;
+            padding: 20px;
+            border-left: 5px solid var(--primary-light);
+            background-color: #fcfcfc;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            page-break-inside: avoid; /* Evita que se corte al imprimir */
+        }
 
-        /* ===== CAMPOS SUPERIORES ===== */
-        .campos-superiores {
+        /* Subrayado especial para etapas clave (Recepción, Vaciado, Liberación) */
+        .highlight-stage {
+            border-left: 5px solid var(--primary-dark);
+            background-color: #eef5f0;
+        }
+
+        .section-title {
+            color: var(--primary-dark);
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .button-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px 24px;
-            margin-bottom: 16px;
-            padding: 12px 16px;
-            border: 1px solid var(--border-light);
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .btn-download {
+            background: var(--white);
+            color: var(--primary-dark);
+            text-decoration: none;
+            padding: 12px 20px;
             border-radius: 6px;
-            background: #fafafa;
-        }
-
-        .campo { display: flex; align-items: center; gap: 8px; }
-        .campo label { font-weight: 600; color: var(--text-dark); white-space: nowrap; font-size: 11px; }
-
-        .campo input, .campo select, .campo-sup-num input {
-            flex: 1;
-            border: none;
-            border-bottom: 2px solid var(--border-light);
-            padding: 4px 8px;
-            font-size: 12px;
-            font-family: inherit;
-            background: transparent;
-            outline: none;
-        }
-
-        .campo-sup-num { display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600;}
-        .campo-sup-num input { width: 45px; text-align: center; flex: none; }
-
-        /* ===== TITULOS DE SECCION ===== */
-        .seccion-titulo {
-            background: var(--ea-primary);
-            color: white;
-            padding: 6px 12px;
-            font-size: 11px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            margin-top: 20px;
-            border-radius: 4px;
-            text-transform: uppercase;
-        }
-
-        /* ===== CADENA DE CUSTODIA TABLE ===== */
-        .coc-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 16px;
-            font-size: 11px;
-        }
-
-        .coc-table th, .coc-table td {
-            border: 1px solid var(--border-light);
-            padding: 8px;
-            vertical-align: middle;
-        }
-
-        .coc-table thead th {
-            background: var(--ea-accent);
-            color: var(--ea-primary);
-            font-weight: 700;
-            text-align: center;
-        }
-
-        /* Altura extra para firmar a mano */
-        .coc-table tbody tr { height: 45px; } 
-        .coc-table .espacio-firma { color: #cbd5e1; font-size: 9px; text-align: center; margin-top: 15px; border-top: 1px dashed #cbd5e1; padding-top: 2px;}
-
-        /* ===== EVAL TABLE ===== */
-        .eval-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 16px;
-            font-size: 11px;
-        }
-
-        .eval-table th, .eval-table td {
-            border: 1px solid var(--border-light);
-            padding: 6px 8px;
-            vertical-align: middle;
-        }
-
-        .eval-table thead th {
-            background: var(--ea-primary);
-            color: white;
             font-weight: 600;
+            font-size: 0.9rem;
+            border: 2px solid var(--primary-light);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px;
+        }
+
+        .btn-download:hover {
+            background: linear-gradient(to right, var(--primary-dark), var(--primary-light));
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 86, 0, 0.2);
+        }
+
+        .btn-main-folder {
+            background: linear-gradient(to right, var(--primary-dark), var(--primary-light));
+            color: var(--white);
+            justify-content: center;
+            font-size: 1rem;
+            padding: 15px;
+            margin-bottom: 30px;
+            border: none;
+        }
+
+        .btn-print {
+            display: block;
+            width: 200px;
+            margin: 30px auto 0;
             text-align: center;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 6px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            font-weight: bold;
         }
 
-        .eval-table .col-no { width: 30px; text-align: center; }
-        .eval-table .col-c, .eval-table .col-nc, .eval-table .col-na { width: 35px; text-align: center; }
-        
-        .section-row td {
-            background: var(--ea-accent);
-            color: var(--ea-primary);
-            font-weight: 700;
-            text-align: left;
-        }
-
-        .eval-table tbody td.num-cell { text-align: center; font-weight: bold; color: var(--ea-primary); }
-        .eval-table tbody td.radio-cell { text-align: center; }
-
-        input[type="radio"] { accent-color: var(--ea-primary); width: 14px; height: 14px; cursor: pointer; }
-
-        .eval-table tbody td.obs-cell { padding: 0; }
-        .eval-table tbody td.obs-cell input {
-            width: 100%; height: 100%; border: none; padding: 6px 8px; font-size: 11px; background: transparent; outline: none;
-        }
-
-        /* ===== LIBERACION & OBS ===== */
-        .liberacion-section {
-            display: flex; align-items: center; gap: 16px; padding: 10px 16px;
-            border: 1px solid var(--border-light); border-radius: 6px; margin-bottom: 12px; background: #fafafa;
-        }
-
-        .obs-generales {
-            border: 1px solid var(--border-light); border-radius: 6px; overflow: hidden; margin-bottom: 20px;
-        }
-
-        .obs-generales .obs-label {
-            background: var(--ea-bg); border-bottom: 1px solid var(--border-light);
-            color: var(--ea-primary); font-weight: 700; padding: 6px 12px; font-size: 11px;
-        }
-
-        .obs-generales textarea {
-            width: 100%; border: none; padding: 8px 12px; font-size: 11px; font-family: inherit; min-height: 40px; resize: vertical; outline: none;
-        }
-
-        /* ===== FIRMAS ===== */
-        .firmas-section { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 20px; }
-        .firma-box { text-align: center; }
-        .firma-rol { font-weight: 700; color: var(--ea-primary); font-size: 12px; margin-bottom: 8px; }
-        .firma-nombre-select {
-            display: block; margin: 0 auto; border: none; border-bottom: 2px solid var(--border-light);
-            padding: 4px; text-align: center; width: 80%; font-size: 11px; font-weight: 600; outline: none; background: transparent;
-        }
-        .firma-linea { border-top: 1px solid var(--text-dark); margin: 30px auto 4px auto; width: 80%; }
-        .firma-label { font-size: 10px; color: var(--text-muted); }
-        .firma-fecha { margin-top: 6px; font-size: 10px; }
-        .firma-fecha input { border: none; border-bottom: 1px solid var(--border-light); font-size: 10px; padding: 2px; text-align: center; width: 110px; outline: none; background: transparent;}
-
-        /* ===== BUTTONS & TOASTS ===== */
-        .btn-bar { position: fixed; bottom: 20px; right: 20px; display: flex; gap: 10px; z-index: 1000; }
-        .btn-action { padding: 10px 16px; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; color: white; cursor: pointer; }
-        .btn-print { background: var(--ea-primary); }
-
-        /* ===== PRINT (Optimizado para escribir a mano) ===== */
+        /* Opciones de Impresión Mejoradas */
         @media print {
-            @page { size: letter portrait; margin: 0.3in; }
-            body { background: white; margin: 0; padding: 0; font-size: 9px; color: black; }
-            .container { box-shadow: none; padding: 0; max-width: 100%; border-radius: 0; }
-            .no-print { display: none !important; }
-
-            .header-title { font-size: 11px; padding: 4px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            .header-info { font-size: 8px; }
-            
-            .campos-superiores { padding: 4px 8px; margin-bottom: 6px; gap: 4px 12px; border: 1px solid #000; }
-            .campo label, .campo input, .campo select, .campo-sup-num label, .campo-sup-num input { font-size: 9px; color: black; }
-            .campo input, .campo select { border-bottom: 1px solid #888; }
-
-            .seccion-titulo { font-size: 9px; padding: 4px 8px; margin-top: 8px; margin-bottom: 4px; -webkit-print-color-adjust: exact; print-color-adjust: exact;}
-            
-            .coc-table { margin-bottom: 6px; font-size: 9px; }
-            .coc-table th, .coc-table td { padding: 4px; border: 1px solid #000; }
-            .coc-table thead th { font-size: 8px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            .coc-table tbody tr { height: 35px; } /* Espacio para firmar a mano */
-            .coc-table .espacio-firma { border-top: 1px dashed #888; color: #555; font-size: 7px; margin-top: 18px; }
-
-            .eval-table { margin-bottom: 6px; font-size: 8px; }
-            .eval-table th, .eval-table td { padding: 3px; border: 1px solid #000; }
-            .eval-table thead th, .section-row td { font-size: 8px; -webkit-print-color-adjust: exact; print-color-adjust: exact; padding: 3px; }
-            .eval-table tbody td.obs-cell input { font-size: 8px; }
-            
-            input[type="radio"] { width: 10px; height: 10px; }
-            .obs-generales { margin-bottom: 6px; border: 1px solid #000; }
-            .obs-generales textarea { min-height: 25px; font-size: 9px; }
-            
-            .firmas-section { gap: 16px; margin-top: 8px; }
-            .firma-linea { margin: 25px auto 2px auto; border-top-color: #000; }
-            .firma-rol, .firma-nombre-select { font-size: 9px; color: black; }
+            body {
+                background-color: var(--white);
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+                max-width: 100%;
+            }
+            .header {
+                /* Fuerza la impresión de fondos en Chrome/Edge/Safari */
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact; 
+                background: var(--primary-dark) !important;
+                color: var(--white) !important;
+                margin-bottom: 20px;
+            }
+            .section-block {
+                box-shadow: none;
+                border: 1px solid var(--gray-border);
+                border-left: 5px solid var(--primary-dark);
+                background-color: var(--white) !important;
+                margin-bottom: 15px;
+            }
+            .btn-download {
+                border: 1px solid var(--gray-border);
+                color: #000;
+            }
+            .btn-download:hover {
+                transform: none;
+                box-shadow: none;
+                background: transparent;
+                color: #000;
+            }
+            .no-print {
+                display: none !important;
+            }
+            /* Añade una pequeña caja (checkbox) al lado de los botones al imprimir para usarlo como Check-list */
+            .btn-download::after {
+                content: '';
+                display: inline-block;
+                width: 15px;
+                height: 15px;
+                border: 1px solid #000;
+                margin-left: auto;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="btn-bar no-print">
-        <button class="btn-action btn-print" onclick="window.print()">🖨️ Imprimir Formato Vacío</button>
+<div class="container">
+    <div class="header">
+        <h1>FORMATOS NOM-081-SEMARNAT-1994</h1>
+        <div class="subtitle">Control Documental y Flujo de Trabajo Operativo</div>
     </div>
 
-    <div class="container" id="formato">
-        <table class="header-table">
-            <tr>
-                <td class="header-logo" rowspan="2">
-                    <img src="assets/logo.png" alt="Ejecutiva Ambiental" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDMwMCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjUwIiBjeT0iOTAiIHI9IjQ1IiBzdHJva2U9IiMyZTdkMzIiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIvPgo8cGF0aCBkPSJNMjAgOTBDMjAgNzMuNDMxNSAzMy40MzE1IDYwIDUwIDYwQzY2LjU2ODUgNjAgODAgNzMuNDMxNSA4MCA5MEw2NSA5MEM2NSA4MS43MTU3IDU4LjI4NDMgNzUgNTAgNzVDNDEuNzE1NyA3NSAzNSA4MS43MTU3IDM1IDkwSDIwWiIgZmlsbD0iIzJlN2QzMiIvPgo8cmVjdCB4PSIzNSIgeT0iODAiIHdpZHRoPSIzMCIgaGVpZ2h0PSIyMCIgZmlsbD0iIzFhNDQ3YiIvPgo8cmVjdCB4PSI0MCIgeT0iNjUiIHdpZHRoPSI0IiBoZWlnaHQ9IjE1IiBmaWxsPSIjMWE0NDdiIi8+CjxyZWN0IHg9IjU2IiB5PSI2NSIgd2lkdGg9IjQiIGhlaWdodD0iMTUiIGZpbGw9IiMxYTQ0N2IiLz4KPGVsbGlwc2UgY3g9IjQyIiBjeT0iNjAiIHJ4PSIzIiByeT0iNCIgZmlsbD0iIzFhNDQ3YiIvPgo8ZWxsaXBzZSBjeD0iNTgiIGN5PSI2MCIgcng9IjMiIHJ5PSI0IiBmaWxsPSIjMWE0NDdiIi8+CjxwYXRoIGQ9Ik02MCA5NUw4MCA5NUw3NSAxMDBMNjUgMTAwWiIgZmlsbD0iIzJlN2QzMiIvPgo8dGV4dCB4PSIxMTAiIHk9IjU1IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSIjMzMzIj5FSkVDVVRJVkE8L3RleHQ+Cjx0ZXh0IHg9IjExMCIgeT0iODAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyOCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiMyZTdkMzIiPkFNQklFTlRBTDwvdGV4dD4KPC9zdmc+';" />
-                </td>
-                <td class="header-title">Supervisión de Gabinete y Cadena de Custodia</td>
-                <td class="header-info" rowspan="2">
-                    <strong>Código:</strong> EA-FSDG-12.01<br>
-                    <strong>Revisión:</strong> 02<br>
-                    <strong>Emitido:</strong> 06 de febrero de 2026
-                </td>
-            </tr>
-            <tr>
-                <td class="lab-subtitle">Laboratorio de Pruebas — Sistema de Gestión de Calidad</td>
-            </tr>
-        </table>
+    <a href="https://drive.google.com/drive/folders/1h19adqg1aU0Url_wJxpaRzNnoMCxWRue?usp=sharing" target="_blank" class="btn-download btn-main-folder no-print">
+        📂 ABRIR CARPETA PRINCIPAL EN DRIVE
+    </a>
 
-        <div class="campos-superiores">
-            <div class="campo">
-                <label>Fecha:</label>
-                <input type="text" placeholder="DD / MM / AAAA">
-            </div>
-            <div class="campo">
-                <label>Informe/Proyecto:</label>
-                <input type="text" placeholder="Escriba aquí...">
-            </div>
-            <div class="campo">
-                <label>Cliente:</label>
-                <input type="text" placeholder="Razón social...">
-            </div>
-            <div class="campo-sup-num">
-                <label>Folio:</label>
-                <span>SUP -</span>
-                <input type="text" placeholder="XXX" maxlength="3">
-                <span>-</span>
-                <input type="text" placeholder="YY" maxlength="2">
-            </div>
-        </div>
-
-        <div class="seccion-titulo">1. Cadena de Custodia: Trazabilidad de Evidencia y Datos</div>
-        <table class="coc-table">
-            <thead>
-                <tr>
-                    <th style="width: 25%;">Fase del Proceso</th>
-                    <th style="width: 20%;">Entregó</th>
-                    <th style="width: 20%;">Recibió</th>
-                    <th style="width: 15%;">Fecha y Hora</th>
-                    <th style="width: 20%;">Evidencia / Observaciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>A. Recepción de Campo</strong><br><span style="font-size:9px; color:gray;">(Ingreso de hojas y equipo a gabinete)</span></td>
-                    <td><div class="espacio-firma">Nombre y Firma</div></td>
-                    <td><div class="espacio-firma">Nombre y Firma</div></td>
-                    <td style="text-align: center; color: #cbd5e1;">___/___/___<br><br>__:__ hrs</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td><strong>B. Vaciado y Procesamiento</strong><br><span style="font-size:9px; color:gray;">(Entrega de datos para revisión)</span></td>
-                    <td><div class="espacio-firma">Nombre y Firma</div></td>
-                    <td><div class="espacio-firma">Nombre y Firma</div></td>
-                    <td style="text-align: center; color: #cbd5e1;">___/___/___<br><br>__:__ hrs</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td><strong>C. Liberación Final</strong><br><span style="font-size:9px; color:gray;">(Aprobación del informe)</span></td>
-                    <td><div class="espacio-firma">Nombre y Firma</div></td>
-                    <td><div class="espacio-firma">Nombre y Firma</div></td>
-                    <td style="text-align: center; color: #cbd5e1;">___/___/___<br><br>__:__ hrs</td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="seccion-titulo">2. Supervisión de Calidad (Checklist ISO 17025)</div>
-        <table class="eval-table" id="tablaEval">
-            <thead>
-                <tr>
-                    <th class="col-no">No.</th>
-                    <th class="col-aspecto">Aspecto a evaluar</th>
-                    <th class="col-c" title="Cumple">C</th>
-                    <th class="col-nc" title="No Cumple">NC</th>
-                    <th class="col-na" title="No Aplica">NA</th>
-                    <th class="col-obs">Comentarios / Observaciones</th>
-                </tr>
-            </thead>
-            <tbody id="evalBody">
-                </tbody>
-        </table>
-
-        <div class="liberacion-section">
-            <strong>¿Se libera el informe?</strong>
-            <label style="cursor: pointer;"><input type="radio" name="libera" value="si"> Sí</label>
-            <label style="cursor: pointer;"><input type="radio" name="libera" value="no"> No</label>
-        </div>
-
-        <div class="obs-generales">
-            <div class="obs-label">Observaciones generales</div>
-            <textarea placeholder="Agregue observaciones adicionales aquí..."></textarea>
-        </div>
-
-        <div class="firmas-section">
-            <div class="firma-box">
-                <div class="firma-rol">Realizó (Analista / Técnico)</div>
-                <input type="text" class="firma-nombre-select" placeholder="Nombre completo">
-                <div class="firma-linea"></div>
-                <div class="firma-label">Firma</div>
-                <div class="firma-fecha">
-                    Fecha: <input type="text" placeholder="DD / MM / AAAA">
-                </div>
-            </div>
-            <div class="firma-box">
-                <div class="firma-rol">Supervisó (Autorizado)</div>
-                <input type="text" class="firma-nombre-select" placeholder="Nombre completo">
-                <div class="firma-linea"></div>
-                <div class="firma-label">Firma</div>
-                <div class="firma-fecha">
-                    Fecha: <input type="text" placeholder="DD / MM / AAAA">
-                </div>
-            </div>
+    <div class="section-block">
+        <h2 class="section-title">▶ Sección 1: Planeación y Orden de Trabajo</h2>
+        <div class="button-grid">
+            <a href="https://drive.google.com/drive/folders/1h19adqg1aU0Url_wJxpaRzNnoMCxWRue?usp=sharing" target="_blank" class="btn-download">
+                📄 Orden de Servicio / Asignación
+            </a>
         </div>
     </div>
 
-    <script>
-        const preguntas = [
-            { id: 1, sec: "Sección 1. Registros de campo (Req. 7.5 / 8.4)", txt: "¿Existe una orden de Trabajo emitida y firmada?" },
-            { id: 2, txt: "¿Existe un registro de entrada y salida del equipo completo?" },
-            { id: 3, txt: "¿Existen los anexos requeridos (hojas de campo, croquis, entre otros)?" },
-            { id: 4, txt: "¿Los registros de campo están completos, legibles y firmados?" },
-            { id: 5, txt: "¿Corrección de errores conforme a sistema (dato con error cruzado, dato correcto y rúbrica)?" },
-            { id: 6, sec: "Sección 2. Equipos y Trazabilidad (Req. 7.5)", txt: "¿Los equipos utilizados cuentan con calibración vigente?" },
-            { id: 7, txt: "¿Las hojas de campo muestran verificación inicial y final (cuando aplica)?" },
-            { id: 8, sec: "Sección 3. Procesamiento (Req. 7.5, 7.6, 7.11)", txt: "¿Se usan formatos vigentes sin reutilizar contenido de otro cliente?" },
-            { id: 9, sec: "Sección 4. Aseguramiento de validez (ISO 7.7)", txt: "Confirmación de que no hay desviaciones al método" },
-            { id: 10, sec: "Sección 5. Revisión del informe (ISO 7.8)", txt: "¿Contiene datos del cliente completos (razón social, dirección, RFC)?" },
-            { id: 11, txt: "¿Contiene el número de informe en todas las hojas?" },
-            { id: 12, txt: "¿Contiene paginación de acuerdo al sistema de gestión?" },
-            { id: 13, txt: "¿Corresponde al método / norma correspondiente?" },
-            { id: 14, txt: "¿Concuerdan los cálculos de las memorias con los resultados reportados?" },
-            { id: 15, txt: "¿Declara la incertidumbre (cuando aplica)?" },
-            { id: 16, txt: "¿Contiene firmas / autorizaciones conforme al sistema?" }
-        ];
+    <div class="section-block">
+        <h2 class="section-title">▶ Sección 2: Ejecución de Medición</h2>
+        <div class="button-grid">
+            <a href="https://drive.google.com/drive/folders/1h19adqg1aU0Url_wJxpaRzNnoMCxWRue?usp=sharing" target="_blank" class="btn-download">
+                📋 Formato de Registro de Ruido en Campo
+            </a>
+        </div>
+    </div>
 
-        document.addEventListener("DOMContentLoaded", () => {
-            const tbody = document.getElementById('evalBody');
-            preguntas.forEach(p => {
-                if (p.sec) {
-                    tbody.innerHTML += `<tr class="section-row"><td colspan="6">${p.sec}</td></tr>`;
-                }
-                tbody.innerHTML += `
-                    <tr>
-                        <td class="num-cell">${p.id}</td>
-                        <td>${p.txt}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="obs-cell"></td>
-                    </tr>`;
-            });
-        });
-    </script>
+    <div class="section-block highlight-stage">
+        <h2 class="section-title">✔ Recepción de Campo</h2>
+        <div class="button-grid">
+            <a href="https://drive.google.com/drive/folders/1h19adqg1aU0Url_wJxpaRzNnoMCxWRue?usp=sharing" target="_blank" class="btn-download">
+                📥 Checklist de Recepción de Equipos y Datos
+            </a>
+        </div>
+    </div>
+
+    <div class="section-block">
+        <h2 class="section-title">▶ Sección 3: Revisión y Captura</h2>
+        <div class="button-grid">
+            <a href="https://drive.google.com/drive/folders/1h19adqg1aU0Url_wJxpaRzNnoMCxWRue?usp=sharing" target="_blank" class="btn-download">
+                📝 Formato de Revisión Preliminar
+            </a>
+        </div>
+    </div>
+
+    <div class="section-block highlight-stage">
+        <h2 class="section-title">⚙️ Vaciado / Procesamiento (Memoria de Cálculo)</h2>
+        <div class="button-grid">
+            <a href="https://drive.google.com/drive/folders/1h19adqg1aU0Url_wJxpaRzNnoMCxWRue?usp=sharing" target="_blank" class="btn-download">
+                📊 Plantilla de Memoria de Cálculo (Excel)
+            </a>
+        </div>
+    </div>
+
+    <div class="section-block">
+        <h2 class="section-title">▶ Sección 4: Integración del Informe (Última Sección)</h2>
+        <div class="button-grid">
+            <a href="https://drive.google.com/drive/folders/1h19adqg1aU0Url_wJxpaRzNnoMCxWRue?usp=sharing" target="_blank" class="btn-download">
+                📑 Reporte Técnico Final
+            </a>
+        </div>
+    </div>
+
+    <div class="section-block highlight-stage">
+        <h2 class="section-title">✅ Liberación</h2>
+        <div class="button-grid">
+            <a href="https://drive.google.com/drive/folders/1h19adqg1aU0Url_wJxpaRzNnoMCxWRue?usp=sharing" target="_blank" class="btn-download">
+                📜 Sello / Formato de Liberación Oficial
+            </a>
+        </div>
+    </div>
+
+    <button onclick="window.print()" class="btn-print no-print">🖨️ Imprimir Hoja de Flujo</button>
+
+</div>
+
 </body>
 </html>
