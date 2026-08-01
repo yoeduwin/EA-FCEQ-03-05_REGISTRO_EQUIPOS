@@ -220,5 +220,23 @@
             </div>
         </div>
     </div>
+<!-- ── Autenticación Google (páginas internas) ── -->
+<style>@media print { #sea-user-info { display: none !important; } }</style>
+<div id="sea-user-info" style="
+  position:fixed;top:12px;right:16px;z-index:9999;
+  display:flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,0.92);border-radius:20px;
+  padding:4px 10px;box-shadow:0 1px 6px rgba(0,0,0,0.15);
+"></div>
+<script src="https://accounts.google.com/gsi/client" onload="onGISLoaded()" async defer></script>
+<script src="auth.js"></script>
+<script>
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby8t7Py-cilePxLiGa-Lq7Df73XaRlmkRYV_kXbTs79HFydaJyub8muA0PBLRkPevUuXg/exec';
+  // El acceso se hereda de SEAINF: en el backend, la acción getConsecutivo ya
+  // está mapeada al módulo SEAINF, así que solo pasa quien tenga esa columna
+  // habilitada en la hoja USUARIOS_AUTORIZADOS. No requiere tocar el GAS.
+  SEAAuth.init(function () { /* páginas estáticas: nada que inicializar */ },
+               { gasUrl: SCRIPT_URL, authAction: 'getConsecutivo' });
+</script>
 </body>
 </html>
