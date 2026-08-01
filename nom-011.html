@@ -407,8 +407,11 @@
 <script src="auth.js"></script>
 <script>
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby8t7Py-cilePxLiGa-Lq7Df73XaRlmkRYV_kXbTs79HFydaJyub8muA0PBLRkPevUuXg/exec';
+  // El acceso se hereda de SEAINF: en el backend, la acción getConsecutivo ya
+  // está mapeada al módulo SEAINF, así que solo pasa quien tenga esa columna
+  // habilitada en la hoja USUARIOS_AUTORIZADOS. No requiere tocar el GAS.
   SEAAuth.init(function () { /* páginas estáticas: nada que inicializar */ },
-               { gasUrl: SCRIPT_URL });
+               { gasUrl: SCRIPT_URL, authAction: 'getConsecutivo' });
 </script>
 </body>
 </html>
