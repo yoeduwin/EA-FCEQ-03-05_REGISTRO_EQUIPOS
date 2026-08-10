@@ -250,6 +250,26 @@
             font-size: 7px;
             padding: 1px;
         }
+
+        /* Control ✕ para eliminar una fila. Solo visible en pantalla:
+           se oculta en impresión y en la exportación a PDF. */
+        .col-delete {
+            display: block;
+            margin-top: 2px;
+            color: #d32f2f;
+            font-size: 11px;
+            font-weight: bold;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        .col-delete:hover {
+            color: #b71c1c;
+        }
+
+        body.exportando-pdf .col-delete {
+            display: none !important;
+        }
         
         .print-btn, .clear-btn, .pdf-btn {
             position: fixed;
@@ -358,7 +378,7 @@
                 padding: 8px;
             }
             
-            .add-row-btn, .print-btn, .pdf-btn, .clear-btn, .delete-row-btn, .btn-volver {
+            .add-row-btn, .print-btn, .pdf-btn, .clear-btn, .delete-row-btn, .btn-volver, .col-delete {
                 display: none !important;
             }
             
@@ -533,89 +553,7 @@
                                 <th class="condition-col">Cambios/Observaciones</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>
-                                    <select class="equipo-select" onchange="actualizarInventario(this, 1)">
-                                        <option value="">Seleccionar equipo...</option>
-                                        <option value="EA-SO11-01">SONÓMETRO INTEGRADOR CON FILTRO DE BANDAS DE OCTAVA</option>
-                                        <option value="EA-CA11-02">CALIBRADOR ACÚSTICO</option>
-                                        <option value="EA-AN15-04">ANEMÓMETRO</option>
-                                        <option value="EA-MT15-05">MONITOR DE ESTRÉS TÉRMICO</option>
-                                        <option value="EA-TL15-06">TERMÓMETRO DE LÍQUIDO EN VIDRIO</option>
-                                        <option value="EA-TL15-07">TERMÓMETRO DE LÍQUIDO EN VIDRIO</option>
-                                        <option value="EA-TK22-08">MEDIDOR DE RESISTENCIA A TIERRAS</option>
-                                        <option value="EA-CV24-09">CALIBRADOR DE EQUIPO DE VIBRACIONES</option>
-                                        <option value="EA-TV24-10">MEDIDOR DE VIBRACIONES HUMANAS</option>
-                                        <option value="EA-HG22-11">HIGRÓMETRO</option>
-                                        <option value="EA-LX25-12">LUXÓMETRO</option>
-                                        <option value="EA-DR22-13">DÉCADAS DE RESISTENCIA</option>
-                                        <option value="EA-TD15-14">TERMÓMETRO DIGITAL</option>
-                                        <option value="EA-MO22-15">MULTÍMETRO</option>
-                                        <option value="EA-DO11-03">DOSÍMETRO (MEDIDOR DE PERSONAL DE RUIDO)</option>
-                                    </select>
-                                </td>
-                                <td><input type="text" id="inventario1" style="width:100%; border:none; font-size:7px;" placeholder="No. inventario/serie" readonly></td>
-                                <td>
-                                    <select style="width:100%; border:none; margin-bottom:2px; font-size:7px;">
-                                        <option value="">Estado...</option>
-                                        <option value="excelente">Excelente</option>
-                                        <option value="bueno">Bueno</option>
-                                        <option value="regular">Regular</option>
-                                        <option value="dañado">Dañado</option>
-                                    </select>
-                                    <div class="checkbox-group">
-                                        <div class="checkbox-item">
-                                            <input type="checkbox" id="botones1"> <label for="botones1">Botones</label>
-                                        </div>
-                                        <div class="checkbox-item">
-                                            <input type="checkbox" id="perillas1"> <label for="perillas1">Perillas</label>
-                                        </div>
-                                        <div class="checkbox-item">
-                                            <input type="checkbox" id="pantalla1"> <label for="pantalla1">Pantalla</label>
-                                        </div>
-                                        <div class="checkbox-item">
-                                            <input type="checkbox" id="cables1"> <label for="cables1">Cables</label>
-                                        </div>
-                                        <div class="checkbox-item">
-                                            <input type="checkbox" id="terminales1"> <label for="terminales1">Terminales</label>
-                                        </div>
-                                        <div class="checkbox-item">
-                                            <input type="checkbox" id="tapas1"> <label for="tapas1">Tapas</label>
-                                        </div>
-                                    </div>
-                                    <textarea style="width:100%; border:none; height:15px; font-size:6px;" placeholder="Observaciones..."></textarea>
-                                </td>
-                                <td><textarea style="width:100%; border:none; height:40px; font-size:7px;" placeholder="Manuales, cables, estuches, etc."></textarea></td>
-                                <td style="background-color: #f9f9f9;">
-                                    <div style="text-align: center; font-size: 6px; color: #666; margin-bottom: 4px;">LLENAR A MANO</div>
-                                    <div class="checkbox-group">
-                                        <div class="checkbox-item">
-                                            <input type="checkbox" disabled> <label>Botones</label>
-                                        </div>
-                                        <div class="checkbox-item">
-                                            <input type="checkbox" disabled> <label>Perillas</label>
-                                        </div>
-                                        <div class="checkbox-item">
-                                            <input type="checkbox" disabled> <label>Pantalla</label>
-                                        </div>
-                                        <div class="checkbox-item">
-                                            <input type="checkbox" disabled> <label>Cables</label>
-                                        </div>
-                                        <div class="checkbox-item">
-                                            <input type="checkbox" disabled> <label>Terminales</label>
-                                        </div>
-                                        <div class="checkbox-item">
-                                            <input type="checkbox" disabled> <label>Tapas</label>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td style="background-color: #f9f9f9; text-align: center; font-size: 6px; color: #666;">
-                                    LLENAR A MANO
-                                </td>
-                            </tr>
-                        </tbody>
+                        <tbody></tbody>
                     </table>
                     <button class="add-row-btn" onclick="agregarFilaEquipo()">+ Agregar Equipo</button>
                 </div>
@@ -667,7 +605,28 @@
     <button class="delete-row-btn" onclick="eliminarUltimaFila()">❌ Eliminar última fila</button>
 
     <script>
-        let contadorEquipos = 1;
+        // Contador monótono para IDs únicos de checkboxes (nunca se reutiliza).
+        let uidEquipo = 0;
+
+        // Opciones de equipos: fuente única usada por todas las filas.
+        const OPCIONES_EQUIPOS = `
+            <option value="">Seleccionar equipo...</option>
+            <option value="EA-SO11-01">SONÓMETRO INTEGRADOR CON FILTRO DE BANDAS DE OCTAVA</option>
+            <option value="EA-CA11-02">CALIBRADOR ACÚSTICO</option>
+            <option value="EA-AN15-04">ANEMÓMETRO</option>
+            <option value="EA-MT15-05">MONITOR DE ESTRÉS TÉRMICO</option>
+            <option value="EA-TL15-06">TERMÓMETRO DE LÍQUIDO EN VIDRIO</option>
+            <option value="EA-TL15-07">TERMÓMETRO DE LÍQUIDO EN VIDRIO</option>
+            <option value="EA-TK22-08">MEDIDOR DE RESISTENCIA A TIERRAS</option>
+            <option value="EA-CV24-09">CALIBRADOR DE EQUIPO DE VIBRACIONES</option>
+            <option value="EA-TV24-10">MEDIDOR DE VIBRACIONES HUMANAS</option>
+            <option value="EA-HG22-11">HIGRÓMETRO</option>
+            <option value="EA-LX25-12">LUXÓMETRO</option>
+            <option value="EA-DR22-13">DÉCADAS DE RESISTENCIA</option>
+            <option value="EA-TD15-14">TERMÓMETRO DIGITAL</option>
+            <option value="EA-MO22-15">MULTÍMETRO</option>
+            <option value="EA-DO11-03">DOSÍMETRO (MEDIDOR DE PERSONAL DE RUIDO)</option>
+        `;
         
         // Mapeo de equipos a códigos de inventario
         const equiposInventario = {
@@ -688,45 +647,64 @@
             'EA-DO11-03': 'EA-DO11-03'
         };
         
-        function actualizarInventario(selectElement, numeroFila) {
-            const codigoInventario = selectElement.value;
-            const inputInventario = document.getElementById(`inventario${numeroFila}`);
-            
-            if (codigoInventario && equiposInventario[codigoInventario]) {
-                inputInventario.value = equiposInventario[codigoInventario];
-            } else {
-                inputInventario.value = '';
-            }
+        // Grupos de equipos que salen juntos: al elegir cualquier miembro de un grupo
+        // se agregan como filas nuevas los miembros que falten (sin duplicar).
+        const GRUPOS_EQUIPOS = [
+            ['EA-SO11-01', 'EA-CA11-02'],                 // Acústica: sonómetro + calibrador acústico
+            ['EA-TK22-08', 'EA-DR22-13', 'EA-MO22-15'],   // Tierras: medidor de tierras + décadas + multímetro
+            ['EA-CV24-09', 'EA-TV24-10']                  // Vibraciones: calibrador de vibraciones + medidor de vibraciones humanas
+        ];
+
+        // true si algún equipo de la tabla ya tiene seleccionada esa clave.
+        function existeEquipo(clave) {
+            return Array.from(document.querySelectorAll('#tablaEquipos tbody .equipo-select'))
+                .some(function (sel) { return sel.value === clave; });
+        }
+
+        // Autollena el número de inventario del equipo elegido (búsqueda relativa a su fila).
+        function actualizarInventario(selectElement) {
+            const fila = selectElement.closest('tr');
+            const inputInventario = fila.querySelector('.inventario-input');
+            const clave = selectElement.value;
+            inputInventario.value = (clave && equiposInventario[clave]) ? equiposInventario[clave] : '';
+        }
+
+        // Se dispara al cambiar un equipo (interacción del usuario): autollena inventario y
+        // agrega las filas del grupo que falten. Las altas programáticas no pasan por aquí,
+        // así que no hay recursión.
+        function alCambiarEquipo(selectElement) {
+            actualizarInventario(selectElement);
+            const clave = selectElement.value;
+            if (!clave) return;
+            const grupo = GRUPOS_EQUIPOS.find(function (g) { return g.indexOf(clave) !== -1; });
+            if (!grupo) return;
+            grupo.forEach(function (miembro) {
+                if (!existeEquipo(miembro)) {
+                    agregarFilaEquipo(miembro);
+                }
+            });
         }
         
-        function agregarFilaEquipo() {
-            contadorEquipos++;
+        // Agrega una fila de equipo (opcionalmente preseleccionada) y renumera.
+        // No resuelve dependencias, por lo que sirve tanto para el botón "+ Agregar Equipo"
+        // como para las altas automáticas por grupo.
+        function agregarFilaEquipo(claveInicial) {
+            uidEquipo++;
+            const uid = uidEquipo;
             const tbody = document.querySelector('#tablaEquipos tbody');
             const nuevaFila = document.createElement('tr');
-            
+
             nuevaFila.innerHTML = `
-                <td>${contadorEquipos}</td>
                 <td>
-                    <select class="equipo-select" onchange="actualizarInventario(this, ${contadorEquipos})">
-                        <option value="">Seleccionar equipo...</option>
-                        <option value="EA-SO11-01">SONÓMETRO INTEGRADOR CON FILTRO DE BANDAS DE OCTAVA</option>
-                        <option value="EA-CA11-02">CALIBRADOR ACÚSTICO</option>
-                        <option value="EA-AN15-04">ANEMÓMETRO</option>
-                        <option value="EA-MT15-05">MONITOR DE ESTRÉS TÉRMICO</option>
-                        <option value="EA-TL15-06">TERMÓMETRO DE LÍQUIDO EN VIDRIO</option>
-                        <option value="EA-TL15-07">TERMÓMETRO DE LÍQUIDO EN VIDRIO</option>
-                        <option value="EA-TK22-08">MEDIDOR DE RESISTENCIA A TIERRAS</option>
-                        <option value="EA-CV24-09">CALIBRADOR DE EQUIPO DE VIBRACIONES</option>
-                        <option value="EA-TV24-10">MEDIDOR DE VIBRACIONES HUMANAS</option>
-                        <option value="EA-HG22-11">HIGRÓMETRO</option>
-                        <option value="EA-LX25-12">LUXÓMETRO</option>
-                        <option value="EA-DR22-13">DÉCADAS DE RESISTENCIA</option>
-                        <option value="EA-TD15-14">TERMÓMETRO DIGITAL</option>
-                        <option value="EA-MO22-15">MULTÍMETRO</option>
-                        <option value="EA-DO11-03">DOSÍMETRO (MEDIDOR DE PERSONAL DE RUIDO)</option>
+                    <span class="num-text"></span>
+                    <span class="col-delete" title="Eliminar fila" onclick="eliminarFila(this)">✕</span>
+                </td>
+                <td>
+                    <select class="equipo-select" onchange="alCambiarEquipo(this)">
+                        ${OPCIONES_EQUIPOS}
                     </select>
                 </td>
-                <td><input type="text" id="inventario${contadorEquipos}" style="width:100%; border:none; font-size:7px;" placeholder="No. inventario/serie" readonly></td>
+                <td><input type="text" class="inventario-input" style="width:100%; border:none; font-size:7px;" placeholder="No. inventario/serie" readonly></td>
                 <td>
                     <select style="width:100%; border:none; margin-bottom:2px; font-size:7px;">
                         <option value="">Estado...</option>
@@ -737,22 +715,22 @@
                     </select>
                     <div class="checkbox-group">
                         <div class="checkbox-item">
-                            <input type="checkbox" id="botones${contadorEquipos}"> <label for="botones${contadorEquipos}">Botones</label>
+                            <input type="checkbox" id="botones${uid}"> <label for="botones${uid}">Botones</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" id="perillas${contadorEquipos}"> <label for="perillas${contadorEquipos}">Perillas</label>
+                            <input type="checkbox" id="perillas${uid}"> <label for="perillas${uid}">Perillas</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" id="pantalla${contadorEquipos}"> <label for="pantalla${contadorEquipos}">Pantalla</label>
+                            <input type="checkbox" id="pantalla${uid}"> <label for="pantalla${uid}">Pantalla</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" id="cables${contadorEquipos}"> <label for="cables${contadorEquipos}">Cables</label>
+                            <input type="checkbox" id="cables${uid}"> <label for="cables${uid}">Cables</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" id="terminales${contadorEquipos}"> <label for="terminales${contadorEquipos}">Terminales</label>
+                            <input type="checkbox" id="terminales${uid}"> <label for="terminales${uid}">Terminales</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" id="tapas${contadorEquipos}"> <label for="tapas${contadorEquipos}">Tapas</label>
+                            <input type="checkbox" id="tapas${uid}"> <label for="tapas${uid}">Tapas</label>
                         </div>
                     </div>
                     <textarea style="width:100%; border:none; height:15px; font-size:6px;" placeholder="Observaciones..."></textarea>
@@ -785,8 +763,37 @@
                     LLENAR A MANO
                 </td>
             `;
-            
+
             tbody.appendChild(nuevaFila);
+
+            if (claveInicial) {
+                const select = nuevaFila.querySelector('.equipo-select');
+                select.value = claveInicial;
+                actualizarInventario(select);
+            }
+
+            renumerar();
+        }
+
+        // Actualiza el número visible (N°) de cada fila según su posición.
+        function renumerar() {
+            document.querySelectorAll('#tablaEquipos tbody tr').forEach(function (tr, i) {
+                const num = tr.querySelector('.num-text');
+                if (num) num.textContent = i + 1;
+            });
+        }
+
+        // Elimina la fila del control ✕ indicado (siempre deja al menos una fila).
+        function eliminarFila(el) {
+            const tbody = document.querySelector('#tablaEquipos tbody');
+            if (tbody.querySelectorAll('tr').length <= 1) {
+                alert('Debe haber al menos un equipo en la tabla');
+                return;
+            }
+            if (confirm('¿Eliminar esta fila de equipos?')) {
+                el.closest('tr').remove();
+                renumerar();
+            }
         }
         
         function imprimir() {
@@ -813,8 +820,11 @@
                 jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
             };
             
-            // Generar y descargar el PDF
-            html2pdf().set(opt).from(element).save();
+            // Ocultar los controles ✕ durante la exportación (html2canvas no respeta
+            // @media print) y restaurarlos al terminar.
+            document.body.classList.add('exportando-pdf');
+            const restaurar = function () { document.body.classList.remove('exportando-pdf'); };
+            html2pdf().set(opt).from(element).save().then(restaurar).catch(restaurar);
         }
         
         function limpiarFormulario() {
@@ -834,26 +844,11 @@
                     checkbox.checked = false;
                 });
                 
-                // Resetear la tabla a solo una fila
+                // Resetear la tabla a una sola fila limpia
                 const tbody = document.querySelector('#tablaEquipos tbody');
-                const primeraFila = tbody.querySelector('tr').cloneNode(true);
-                
-                // Limpiar la primera fila
-                primeraFila.querySelectorAll('input, textarea, select').forEach(function(field) {
-                    if (field.type === 'checkbox') {
-                        field.checked = false;
-                    } else {
-                        field.value = '';
-                        field.selectedIndex = 0;
-                    }
-                });
-                
-                // Reemplazar todo el tbody con solo la primera fila limpia
                 tbody.innerHTML = '';
-                tbody.appendChild(primeraFila);
-                
-                // Resetear contador
-                contadorEquipos = 1;
+                uidEquipo = 0;
+                agregarFilaEquipo();
                 
                 alert('Formulario limpiado correctamente');
             }
@@ -871,9 +866,17 @@
             
             if (confirm('¿Eliminar la última fila de equipos?')) {
                 tbody.removeChild(filas[filas.length - 1]);
-                contadorEquipos--;
+                renumerar();
             }
         }
+
+        // Generar la primera fila al cargar (fuente única de la fila vía agregarFilaEquipo).
+        document.addEventListener('DOMContentLoaded', function () {
+            const tbody = document.querySelector('#tablaEquipos tbody');
+            tbody.innerHTML = '';
+            uidEquipo = 0;
+            agregarFilaEquipo();
+        });
     </script>
 <!-- ── Autenticación Google (páginas internas) ── -->
 <style>@media print { #sea-user-info { display: none !important; } }</style>
